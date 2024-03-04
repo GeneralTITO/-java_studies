@@ -1,39 +1,31 @@
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        // int numero = 9;
+        // Tipos Primitivos
+        byte assd = 1; /* -128 até 127 */
+        short assaaasdd = 1; /* -32,768 a 32,767 */
+        int assasdaad = 1; /* -2^31 a 2^31-1 */
+        long assasdad = 1L; /* -2^63 a 2^63-1 */
 
-        // if (numero > 10) {
-        // System.out.println("numero maior que 10");
-        // } else if (numero < 10) {
-        // System.out.println("numero menor que 10");
-        // } else {
-        // System.out.println("numero igual 10");
-        // }
+        float gtbrg = 1.0F;
+        double afth = 1.0; /* por padrão quando é flutuante vira doble, por isso n precisa de sufixo */
 
-        // char grade = 'F';
+        char a = 'A';
+        boolean x = true;
+        var y = false;
 
-        // switch (grade) {
-        // case 'A':
-        // System.out.println("Excelente!");
-        // break;
-        // case 'B':
-        // System.out.println("media!");
-        // break;
-        // default:
-        // System.out.println("marrapaiz q nota é essa!");
-        // break;
-        // }
+        // tipos de referencia
+        // classes
 
-        // for (int i = 0; i < 5; i++) {
-        // System.out.println("contador: " + i);
-        // }
+        // interfaces
+        List<String> list = new ArrayList<>();
 
-        // int contador = 0;
+        int[] intArray = new int[10];
 
-        // while (contador < 5) {
-        //     System.out.println("Contador: " + contador);
-        //     contador++;
-        // }
+        String[] srtArray = new String[5];
+        System.out.println(intArray.length);
+
     }
 }
