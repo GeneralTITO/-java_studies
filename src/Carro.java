@@ -13,7 +13,11 @@ public class Carro {
         System.out.println("Carro freia");
     }
 
-    // construtor = quando uma classe pode ser iniciada
+    void buzinar() {
+        System.out.println("beep!");
+    }
+
+    // construtor = usando com esse this, ta dizendo q para criar vai precisar dessas informações
     Carro(String marca, int ano, String cor) {
         this.marca = marca;
         this.ano = ano;
