@@ -1,9 +1,9 @@
+
 public class Main {
     public static void main(String[] args) {
-        var meuCarro = new Carro("toyota", 2000, "laranja");
-        meuCarro.acelerar();
-        meuCarro.freiar();
-
-        System.out.println(meuCarro.cor+meuCarro.ano);
+        var frutas = Arrays.asList("maça", "banana", "cereja").stream();
+        var primeiraFruta = frutas.filter(f -> f.startsWith("m")).findFirst();
+        System.out.println(primeiraFruta.get());
     }
+
 }
