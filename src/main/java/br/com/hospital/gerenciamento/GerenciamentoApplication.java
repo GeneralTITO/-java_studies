@@ -1,13 +1,13 @@
-package br.com.teste.myapp;
+package br.com.hospital.gerenciamento;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MyAppApplication {
+public class GerenciamentoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MyAppApplication.class, args);
+		SpringApplication.run(GerenciamentoApplication.class, args);
 	}
 
 }

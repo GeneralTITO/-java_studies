@@ -1,10 +1,10 @@
-package br.com.teste.myapp;
+package br.com.hospital.gerenciamento;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MyAppApplicationTests {
+class GerenciamentoApplicationTests {
 
 	@Test
 	void contextLoads() {

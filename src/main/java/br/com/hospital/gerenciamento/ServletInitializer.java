@@ -1,4 +1,4 @@
-package br.com.teste.myapp;
+package br.com.hospital.gerenciamento;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -7,7 +7,7 @@ public class ServletInitializer extends SpringBootServletInitializer {
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(MyAppApplication.class);
+		return application.sources(GerenciamentoApplication.class);
 	}
 
 }
