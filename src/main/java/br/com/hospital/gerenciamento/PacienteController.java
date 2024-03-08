@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/pacientes")
 public class PacienteController {
     private List<PacienteModel> pacientes = new ArrayList<>();
+
+    @GetMapping("/idade")
+    public List<PacienteModel> buscarPorIdade(@RequestParam(value = "idade", required = false) String idade) {
+        if (idade != null) {
+            return pacientes.stream()
+                    .filter(p -> p.getIdade() == Integer.parseInt(idade))
+                    .collect(Collectors.toList());
+        } else {
+            // Se nenhum parâmetro de idade for fornecido, retornar todos os pacientes
+            return pacientes;
+        }
+    }
 
     @PostMapping
     public PacienteModel adcionarPacienteModel(@RequestBody PacienteModel paciente) {
@@ -28,20 +41,20 @@ public class PacienteController {
         return pacientes.stream().filter(p -> p.getId().equals(pacienteId)).findFirst();
     }
 
-    // @PutMapping("/{id}")
-    // public PacienteModel atualizarPaciente(@PathVariable UUID id, @RequestBody
-    // PacienteModel pacienteAtualizado) {
-    // for (PacienteModel paciente : pacientes) {
-    // if (paciente.getId().equals(id)) {
-    // paciente.setNome(pacienteAtualizado.getNome());
-    // paciente.setIdade(pacienteAtualizado.getIdade());
-    // paciente.setEndereco(pacienteAtualizado.getEndereco());
-    // return paciente;
+    @PutMapping("/{id}")
+    public PacienteModel atualizarPaciente(@PathVariable UUID id, @RequestBody PacienteModel pacienteAtualizado) {
+        for (PacienteModel paciente : pacientes) {
+            if (paciente.getId().equals(id)) {
+                paciente.setNome(pacienteAtualizado.getNome());
+                paciente.setIdade(pacienteAtualizado.getIdade());
+                paciente.setEndereco(pacienteAtualizado.getEndereco());
+                return paciente;
 
-    // }
-    // }
-    // return null;
-    // }
+            }
+        }
+        return null;
+    }
+
     @PutMapping("/{pacienteId}")
     public Optional<PacienteModel> update(@PathVariable UUID pacienteId,
             @RequestBody PacienteModel payload) {
@@ -59,10 +72,10 @@ public class PacienteController {
                 .findFirst();
     }
 
-    // @DeleteMapping("/{id}")
-    // public void deletarPaciente(@PathVariable UUID id) {
-    // pacientes.removeIf(paciente -> paciente.getId().equals(id));
-    // }
+    @DeleteMapping("/{id}")
+    public void deletarPaciente(@PathVariable UUID id) {
+        pacientes.removeIf(paciente -> paciente.getId().equals(id));
+    }
 
     @DeleteMapping("/{pacienteId}")
     public void delete(@PathVariable UUID pacienteId) {
