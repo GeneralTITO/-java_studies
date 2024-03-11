@@ -13,6 +13,9 @@ import lombok.Data;
 @Data
 @Entity(name = "profiles")
 @JsonIgnoreProperties(value = "user")
+// jsonigorne aqui em cima é um quebra galho. o certo é
+// usar um DTO
+
 public class ProfileEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
