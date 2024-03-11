@@ -1,10 +1,10 @@
-package br.com.hospital.gerenciamento;
+package br.com.jpa11.relacionamento11;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class GerenciamentoApplicationTests {
+class Relacionamento11ApplicationTests {
 
 	@Test
 	void contextLoads() {
