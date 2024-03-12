@@ -3,13 +3,17 @@ package br.com.kenzie.jwt_auth_pt1.security;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import br.com.kenzie.jwt_auth_pt1.config.JwtConfig;
@@ -32,6 +36,34 @@ public class JwtTokenProvider {
     public void init() {
         var secret = Base64.getEncoder().encodeToString(jwtConfig.getSecretKey().getBytes());
         secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public boolean validateToken(String token) {
+        Jwts.parser().verifyWith(secretKey)
+                .build().parseSignedClaims(token);
+
+        return true;
+    }
+
+    public Authentication getAuthentication(String token) {
+        var claims = Jwts.parser().verifyWith(secretKey)
+                .build().parseSignedClaims(token).getPayload();
+
+        var authoritiesClaim = claims.get(AUTHORITHIES_KEY);
+        List<GrantedAuthority> authorities;
+
+        if (authoritiesClaim == null) {
+            authorities = AuthorityUtils.NO_AUTHORITIES;
+        } else {
+            authorities = AuthorityUtils
+                    .commaSeparatedStringToAuthorityList(
+                            authoritiesClaim.toString());
+        }
+
+        var principal = new User(claims.getSubject(), "", authorities);
+
+        return new UsernamePasswordAuthenticationToken(
+                principal, token, authorities);
     }
 
     public String createToken(Authentication authentication) {
