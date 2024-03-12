@@ -8,11 +8,18 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import br.com.kenzie.jwt_auth_pt1.modules.user.UserRepository;
 
 @Configuration
 public class SessionConfig {
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
     @Bean
     UserDetailsService userDetailsService(UserRepository userRepo) {
         return (username) -> userRepo
@@ -24,15 +31,17 @@ public class SessionConfig {
     }
 
     @Bean
-    AuthenticationManager authenticationManager(UserDetailsService userDetailsService) {
+    AuthenticationManager authenticationManager(
+            UserDetailsService userDetailsService,
+            PasswordEncoder encoder) {
         return authentication -> {
             var username = authentication.getPrincipal().toString();
             var password = authentication.getCredentials().toString();
 
             try {
                 var user = userDetailsService.loadUserByUsername(username);
-
-                if (!user.getPassword().equals(password)) {
+                var hasSamePassword = encoder.matches(password, user.getPassword());
+                if (!hasSamePassword) {
                     throw new BadCredentialsException("Invalid username/password supplied");
                 }
 

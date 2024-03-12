@@ -2,7 +2,6 @@ package br.com.kenzie.jwt_auth_pt1.modules.user;
 
 import java.util.ArrayList;
 
-
 import java.util.Collection;
 import java.util.List;
 
@@ -25,7 +24,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "users")
-public class UserEntity implements UserDetails{
+public class UserEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -36,7 +35,11 @@ public class UserEntity implements UserDetails{
     @Column(nullable = false)
     private String password;
 
-        @Column
+    @Column
+    @Builder.Default
+    private Boolean admin = false;
+
+    @Column
     @Builder.Default
     private Boolean accountNonExpired = true;
 
@@ -56,11 +59,6 @@ public class UserEntity implements UserDetails{
     private List<String> roles = new ArrayList<>();
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream().map(SimpleGrantedAuthority::new).toList();
-    }
-
-    @Override
     public boolean isAccountNonExpired() {
         return accountNonExpired;
     }
@@ -78,5 +76,12 @@ public class UserEntity implements UserDetails{
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream()
+                .map(r -> new SimpleGrantedAuthority("ROLE_" + r))
+                .toList();
     }
 }
